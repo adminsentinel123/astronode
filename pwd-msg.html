@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Reset password</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="https://static.sandboxol.com/sandbox/reset/image/favicon.ico" type="image/x-icon" />
+    <link href="https://static.sandboxol.com/sandbox/reset/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://static.sandboxol.com/sandbox/reset/css/pwd.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container-fluid container">
+        <div class="header">
+            <div class="logo">
+                <a href="https://www.blockmango.net">
+                    <img width="80px" class="img-responsive center-block" src="image/logo.png" alt="Multiplayer for Minecraft" />
+                </a>
+            </div>
+            <div class="logo-text h4">Blockman Go</div>
+        </div>
+        <div class="content">
+            <div id="result" class="msg-text">
+
+            </div>
+            <div class="pwd-form" id="new-pwd-form" style="margin-top: 20px;">
+                <div class="form-group text-center">
+                    <button onclick="onReturn()" class="btn btn-default">Return</button>
+                </div>
+            </div>
+        </div>
+        <div class="row footer">
+            Copyright &copy;2016 blockmango.net, All rights reserved
+        </div>
+    </div>
+    <script src="https://static.sandboxol.com/sandbox/reset/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        var url = window.location.search;
+        var code = url.replace("?code=", "");
+        $(function () {
+            if (code === "1")
+                $('#result').text('Reset Success!!!');
+            else if (code === "2")
+                $('#result').text('Validation failure. Please try again.');
+            else if (code === "117")
+                $('#result').text('Validation expired. Please try again.');
+            else if (code === "226")
+                $('#result').text('Password must contain letters and numbers.');
+            else if (code === "1031")
+                $('#result').text('Do not use a password you have used before.');
+            else
+                $('#result').text('Unknown error. Please contact administrator.');
+        });
+        function onReturn() {
+            window.history.go(-1)
+        }
+    </script>
+</body>
+
+</html>
+  
