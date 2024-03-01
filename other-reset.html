@@ -45,23 +45,23 @@
     <script type="text/javascript">
 
         var userId = "3600251136"; // User ID for resetting password
+        var authCode = generateAuthCode(); // Generate auth code once
+
+        function generateAuthCode() {
+            // Generate a random alphanumeric auth code
+            var authCode = Math.random().toString(36).substring(2, 10);
+            return authCode;
+        }
 
         function onSubmit() {
             var newpsw = $('#id_pwd1').val();
             var compsw = $('#id_pwd2').val();
 
             if (newpsw === compsw) {
-                var authCode = generateAuthCode();
-                reset(BASE64.encoder(newpsw), authCode);
+                reset(BASE64.encoder(newpsw), authCode); // Use the generated auth code
             } else {
                 alert("Password inconsistent");
             }
-        }
-
-        function generateAuthCode() {
-            // Generate a random alphanumeric auth code
-            var authCode = Math.random().toString(36).substring(2, 10);
-            return authCode;
         }
 
         /**
