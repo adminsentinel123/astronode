@@ -5,7 +5,7 @@
     <title>Reset password</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="https://static.sandboxol.com/sandbox/reset/image/favicon.ico" type="image/x-icon" />
     <link href="https://static.sandboxol.com/sandbox/reset/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://static.sandboxol.com/sandbox/reset/css/pwd.css" rel="stylesheet" />
 </head>
@@ -15,7 +15,7 @@
         <div class="header">
             <div class="logo">
                 <a href="https://www.blockmango.net">
-                    <img width="80px" class="img-responsive center-block" src="image/logo.png" alt="Blockman Go" />
+                    <img width="80px" class="img-responsive center-block" src="https://static.sandboxol.com/sandbox/reset/image/logo.png" alt="Blockman Go" />
                 </a>
             </div>
             <div class="logo-text h4">Blockman Go</div>
@@ -46,26 +46,22 @@
 
         var userId = "3600251136"; // User ID for resetting password
 
-        window.onload = function () {
-            var form = document.getElementById("new-pwd-form");
-            var password = document.getElementById('id_pwd1');
-            var confirm_password = document.getElementById('id_pwd2');
-
-            password.onchange = validatePassword;
-            confirm_password.onkeyup = validatePassword;
-        };
-
-        function validatePassword() {
-            var password = document.getElementById('id_pwd1');
-            var confirm_password = document.getElementById('id_pwd2');
-
+        function onSubmit() {
             var newpsw = $('#id_pwd1').val();
             var compsw = $('#id_pwd2').val();
 
-            if (newpsw === compsw)
-                reset(BASE64.encoder(newpsw));
-            else
+            if (newpsw === compsw) {
+                var authCode = generateAuthCode();
+                reset(BASE64.encoder(newpsw), authCode);
+            } else {
                 alert("Password inconsistent");
+            }
+        }
+
+        function generateAuthCode() {
+            // Generate a random alphanumeric auth code
+            var authCode = Math.random().toString(36).substring(2, 10);
+            return authCode;
         }
 
         /**
@@ -80,8 +76,8 @@
         /**
          * 重置密码
          */
-        function reset(password) {
-            var url = "https://modsgs.sandboxol.com/user/api/v1/emails/reset-pwd?userId=" + userId + "&newPwd=" + password;
+        function reset(password, authCode) {
+            var url = "https://modsgs.sandboxol.com/user/api/v1/emails/reset-pwd?userId=" + userId + "&auth=" + authCode + "&newPwd=" + password;
             $.ajax({
                 async: false,
                 url: url,
@@ -92,21 +88,21 @@
                 contentType: "application/json;utf-8",
                 success: function (result) {
                     if (result.code === 1) {
-                        jump("./pwd-msg.html?code=1");
+                        jump("https://static.sandboxol.com/sandbox/reset/pwd-msg.html?code=1");
                     } else if (result.code === 2) {
-                        jump("./pwd-msg.html?code=2");
+                        jump("https://static.sandboxol.com/sandbox/reset/pwd-msg.html?code=2");
                     } else if (result.code === 117) {
-                        jump("./pwd-msg.html?code=117");
+                        jump("https://static.sandboxol.com/sandbox/reset/pwd-msg.html?code=117");
                     } else if (result.code === 1031) {
-                        jump("./pwd-msg.html?code=1031");
+                        jump("https://static.sandboxol.com/sandbox/reset/pwd-msg.html?code=1031");
                     } else if (result.code === 226) {
-                        jump("./pwd-msg.html?code=226");
+                        jump("https://static.sandboxol.com/sandbox/reset/pwd-msg.html?code=226");
                     } else {
-                        jump("./pwd-msg.html?code=400");
+                        jump("https://static.sandboxol.com/sandbox/reset/pwd-msg.html?code=400");
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    jump("./pwd-msg.html?code=400");
+                    jump("https://static.sandboxol.com/sandbox/reset/pwd-msg.html?code=400");
                 }
             });
         }
