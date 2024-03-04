@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockmango Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .profile {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="login-container">
+        <h2>Login to Blockmango</h2>
+        <form id="login-form">
+            <label for="user-id">User ID:</label><br>
+            <input type="text" id="user-id" name="user-id" required><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+            <button type="submit">Login</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <div class="container" id="home-container" style="display: none;">
+        <h2>Welcome to Blockmango</h2>
+        <div id="greeting"></div>
+        <div class="profile" id="profile"></div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const userId = document.getElementById('user-id').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const token = await generateToken(userId, password);
+                document.getElementById('message').innerText = 'Login successful. Redirecting...';
+
+                // Simulate redirection to home page after 2 seconds
+                setTimeout(function() {
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('home-container').style.display = 'block';
+                    document.getElementById('greeting').innerText = `Hello! Welcome, ${userId}!`;
+                    displayProfileImage(token);
+                }, 2000);
+            } catch (error) {
+                document.getElementById('message').innerText = `Login failed: ${error.message}`;
+            }
+        });
+
+        async function generateToken(userId, password) {
+            const url = 'https://www.blockmango.com/cubo-api/account/api/v1/login';
+            const data = { userId, password };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Invalid credentials');
+                }
+
+                const jsonData = await response.json();
+                return jsonData.token;
+            } catch (error) {
+                throw new Error(`Failed to login: ${error.message}`);
+            }
+        }
+
+        async function displayProfileImage(token) {
+            const url = 'https://www.blockmango.com/cubo-api/user/api/v1/profile';
+            const headers = { 'Authorization': `Bearer ${token}` };
+
+            try {
+                const response = await fetch(url, { headers });
+                const jsonData = await response.json();
+                const profileImage = jsonData.avatar;
+
+                if (profileImage) {
+                    const profileContainer = document.getElementById('profile');
+                    profileContainer.innerHTML = `<img src="${profileImage}" alt="Profile Picture" style="max-width: 200px;">`;
+                }
+            } catch (error) {
+                console.error('Failed to fetch profile image:', error);
+            }
+        }
+    </script>
+</body>
+</html>
