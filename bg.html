@@ -1,145 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blockmango Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
 
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        h2 {
-            text-align: center;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="password"],
-        button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        #message {
-            text-align: center;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        .profile {
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container" id="login-container">
-        <h2>Login to Blockmango</h2>
-        <form id="login-form">
-            <label for="user-id">User ID:</label><br>
-            <input type="text" id="user-id" name="user-id" required><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" required><br><br>
-            <button type="submit">Login</button>
-        </form>
-        <div id="message"></div>
-    </div>
-
-    <div class="container" id="home-container" style="display: none;">
-        <h2>Welcome to Blockmango</h2>
-        <div id="greeting"></div>
-        <div class="profile" id="profile"></div>
-    </div>
-
-    <script>
-        document.getElementById('login-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            const userId = document.getElementById('user-id').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const token = await generateToken(userId, password);
-                document.getElementById('message').innerText = 'Login successful. Redirecting...';
-
-                // Simulate redirection to home page after 2 seconds
-                setTimeout(function() {
-                    document.getElementById('login-container').style.display = 'none';
-                    document.getElementById('home-container').style.display = 'block';
-                    document.getElementById('greeting').innerText = `Hello! Welcome, ${userId}!`;
-                    displayProfileImage(token);
-                }, 2000);
-            } catch (error) {
-                document.getElementById('message').innerText = `Login failed: ${error.message}`;
-            }
-        });
-
-        async function generateToken(userId, password) {
-            const url = 'https://www.blockmango.com/cubo-api/account/api/v1/login';
-            const data = { userId, password };
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                if (!response.ok) {
-                    throw new Error('Invalid credentials');
-                }
-
-                const jsonData = await response.json();
-                return jsonData.token;
-            } catch (error) {
-                throw new Error(`Failed to login: ${error.message}`);
-            }
-        }
-
-        async function displayProfileImage(token) {
-            const url = 'https://www.blockmango.com/cubo-api/user/api/v1/profile';
-            const headers = { 'Authorization': `Bearer ${token}` };
-
-            try {
-                const response = await fetch(url, { headers });
-                const jsonData = await response.json();
-                const profileImage = jsonData.avatar;
-
-                if (profileImage) {
-                    const profileContainer = document.getElementById('profile');
-                    profileContainer.innerHTML = `<img src="${profileImage}" alt="Profile Picture" style="max-width: 200px;">`;
-                }
-            } catch (error) {
-                console.error('Failed to fetch profile image:', error);
-            }
-        }
-    </script>
-</body>
-</html>
+<!DOCTYPE html><html style=height:100%><head><title>Blockman GO</title><meta charset=utf-8><meta name=viewport content="user-scalable=0,width=device-width,initial-scale=1"><meta name=renderer content=webkit><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><meta name=description content="Blockman GO is a free app including minigames,chatting and making friends. You can play various block style minigames here."><meta name=keywords content="Blockman GO, Blockmango, sandboxol, online game, free game, building games, virtual worlds,free mmo, mini game, gaming cloud, physics engine, sandboxol game, sandbox, Snowman Defender, Mega Walls, Sky Royale, Hero Tycoon, Ultimate Fighting, TNT Tag, Gem Knight, Build Battle, Capture Flag, Rainbow Parkour, Mini Town, Aliens Attack, Egg War, Hide and Seek, PUBG:Battle Field, Treasure Hunter, Jail Break, Zombie Infecting, Murder Mystery, Snowball Battle, Bed Wars, Sky Wars,Survival Games, TNT Run, Bow Spleef"><meta itemprop=name content="Blockman GO"><meta http-equiv=x-dns-prefetch-control content=on><meta name=google-site-verification content=36mLCuhZqe_iLlKjGHiDDYLKCnFLjg1eW4fajRLRXqs><script type=application/ld+json>{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://www.blockmango.com",
+        "name": [{
+            "@language": "en",
+            "@value": "Blockman GO"
+        }],
+        "description": [{
+            "@language": "en",
+            "@value": "Blockman GO is a free app including minigames,chatting and making friends. You can play various block style minigames here."
+        }],
+        "genre": [
+            "sandbox",
+            "blockman"
+        ],
+    }</script><link rel=canonical href=https://www.blockmango.com/#/ ><link rel="shortcut icon" href=/static/images/header/bg_logo.png type=image/x-icon><link rel=dns-prefetch href=http://static.sandboxol.cn><link rel=dns-prefetch href=http://static.sandboxol.com><link rel=dns-prefetch href=https://static.sandboxol.com><link rel=dns-prefetch href=https://static.blockmango.net><link rel=dns-prefetch href=http://rongcloud-image.ronghub.com><link rel=dns-prefetch href=https://cdn.ronghub.com><link rel=stylesheet href="https://static.blockmango.net/web/css/element-ui.css?t=12"><link rel=stylesheet href="../static/css/normal.css?t=1"><link rel=stylesheet href="https://static.blockmango.net/web/css/swiper.min.css?t=12"><script src="https://jic.talkingdata.com/app/h5/v1?appid=93508ABC8BB848F8BA4557B1ABD4BD1A&vn=index&vc=1.0"></script><script src=/static/js/hello.all.min.js></script><link href=https://static.blockmango.net/static/css/index_v1.745576cda1b065de4d41de4ca32551ca.css rel=stylesheet></head><body><div id=app></div><div id=bm-init-footer class=bm-footer><div class="bm-footer-box tc"><div class=bm-footer-margin-box><div class="bm-copyright tl">Copyright 2021 Sandbox NETWK. TEC. All rights reserved. <span><a href=./privacy.html class=bm-go-to-privacy>Privacy</a></span></div></div></div></div><script src=https://static.blockmango.net/web/js/vue.min.js></script><script src=https://static.blockmango.net/web/js/vue-router.min.js></script><script src=https://static.blockmango.net/web/js/vuex.min.js></script><script src=https://static.blockmango.net/web/js/element-ui.js></script><script src=/static/js/vue-lazyload.js></script><script src=https://static.blockmango.net/web/js/jquery.min.js></script><script src=/static/js/jquery.emoji.min.js></script><script src=https://static.blockmango.net/web/js/swiper.min.js></script><script src=https://static.blockmango.net/web/js/vue-awesome-swiper.js></script><script type=text/javascript>Vue.use(window.VueAwesomeSwiper)</script><div style=display:none><script src="https://s4.cnzz.com/z_stat.php?id=1279808123&web_id=1279808123"></script></div><script type=text/javascript src=https://static.blockmango.net/static/js/manifest_v1.af85add1f13d984726c4.js></script><script type=text/javascript src=https://static.blockmango.net/static/js/vendor_v1.70708a8fb94ff549f4cd.js></script><script type=text/javascript src=https://static.blockmango.net/static/js/index_v1.d6e064504bca9aa15f85.js></script></body><script>function getBrowserInfo() {
+    var Sys = '';
+    var ua = navigator.userAgent.toLowerCase();
+    var re = /(msie|firefox|chrome|opera|version|edg).*?([\d.]+)/;
+    var edg = ua.match(/edg.*?([\d.]+)/)
+    if (edg) {
+      return 'edge-' + edg[1].split('.')[0]
+    }
+    var m = ua.match(re);
+    if (!m && ua.match(/(trident)\/([\d.]+)/)) {
+      return 'msie-11'
+    }
+    if (m && m[1]) {
+      Sys += m[1].replace(/version/, "'safari") || '';
+    }
+    if (m && m[2]) {
+      Sys += ('-' + m[2].split('.')[0]);
+    }
+    return Sys;
+  }
+  TDAPP.onEvent('用户浏览器及版本', 'user_agent_version', {
+    version: getBrowserInfo()
+  });</script></html>
